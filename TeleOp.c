@@ -36,7 +36,12 @@ void initializeRobot()
   return;
 }
 
+void waitForStart()
+{
+  // wait for button to start teleop
 
+  return;
+}
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //                                         Main Task

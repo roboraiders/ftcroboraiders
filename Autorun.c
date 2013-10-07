@@ -144,11 +144,13 @@ void displayJoystickOnLCD()
   if (joystick.UserMode)
     sStatus = "User";
   else
-    sStatus = "Automous";
+    sStatus = "Autonomous";
   if (joystick.StopPgm)
-    sStatus += " Paused";
+  	strcat(sStatus," Paused");
+    //sStatus += " Paused";
   else
-    sStatus += " Running";
+  	strcat(sStatus," Running");
+    //sStatus += " Running";
   nxtDisplayTextLine(1, sStatus);
 
   // Draw Joystick 1 on the screen
@@ -178,11 +180,13 @@ void displayJoystickOnLCD()
 	  {
 	    if (nLastButtons & (1 << nButton))
 	    {
-	      char cChar;
+	      string cChar;
 
-	      sButtons += " ";
-	      cChar = (char) ('0' + nButton);
-	      sButtons += cChar;
+	      //sButtons += " ";
+	      strcat(sButtons," ");
+	      cChar = ('0' + nButton);
+	      //sButtons += cChar;
+	      strcat(sButtons,cChar);
 	    }
 	  }
 	  nxtDisplayTextLine(7, sButtons);
