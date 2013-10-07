@@ -13,49 +13,11 @@
 #pragma autoStartTasks
 #include "JoystickDriver.c"
 
-bool bDisplayDiagnostics = true;  // Set to false in user program to disable diagnostic display
-
 void getUserControlProgram(string& sFileName);
 
 void disableDiagnosticsDisplay()
 {
   bDisplayDiagnostics = false;   // Disable diagnostic display
-}
-
-
-task displayDiagnostics()
-{
-  string sFileName;
-
-  getUserControlProgram(sFileName);
-	nxtDisplayTextLine(6, "Teleop FileName:");
-	nxtDisplayTextLine(7, sFileName);
-  bNxtLCDStatusDisplay = true;
-  while (true)
-	{
-		if (bDisplayDiagnostics)
-		{
-			getJoystickSettings(joystick);                   //Update variables with current joystick values
-
-			if (joystick.StopPgm)
-			  nxtDisplayCenteredTextLine(1, "Wait for Start");
-			else if (joystick.UserMode)
-				nxtDisplayCenteredTextLine(1, "TeleOp Running");
-			else
-				nxtDisplayCenteredTextLine(1, "Auton Running");
-
-			if ( externalBatteryAvg < 0)
-				nxtDisplayTextLine(3, "Ext Batt: OFF");       //External battery is off or not connected
-			else
-				nxtDisplayTextLine(3, "Ext Batt:%4.1f V", externalBatteryAvg / (float) 1000);
-
-			nxtDisplayTextLine(4, "NXT Batt:%4.1f V", nAvgBatteryLevel / (float) 1000);   // Display NXT Battery Voltage
-
-			nxtDisplayTextLine(5, "FMS Msgs: %d", nMessageCount);   // Display Count of FMS messages
-		}
-
-		wait1Msec(200);
-  }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -68,8 +30,6 @@ task displayDiagnostics()
 // Note that the filename includes the ".rxe" (robot executable file) file extension.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////
-
-const string kConfigName = "FTCConfig.txt";
 
 void getUserControlProgram(string& sFileName)
 {
@@ -86,8 +46,7 @@ void getUserControlProgram(string& sFileName)
   {
     for (int index = 0; index < nFileSize; ++index)
     {
-      ReadByte(hFileHandle, nIoResult,  nParmToReadByte[0]);
-      strcat(sFileName, nParmToReadByte);
+      strncat(sFileName, (char) ReadByte(hFileHandle, nIoResult, nParmToReadByte[index]), 1);
     }
 
     //
