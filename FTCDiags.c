@@ -11,6 +11,7 @@
 
 #pragma systemFile            // this eliminates warning for "unreferenced" functions
 #pragma autoStartTasks
+#include "JoystickDriver.c"
 
 bool bDisplayDiagnostics = true;  // Set to false in user program to disable diagnostic display
 
